@@ -1,0 +1,2341 @@
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nested Learning: The Illusion of Deep Learning Architecture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Custom Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nested-circle {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pulse-ring {
+            animation: pulse-ring 3s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+            }
+        }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #3b82f6;
+        }
+
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: #3b82f6;
+        }
+
+        /* Card Hover Effects */
+        .feature-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    <style>
+        *,
+        ::before,
+        ::after {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        ::backdrop {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-gradient-from-position: ;
+            --tw-gradient-via-position: ;
+            --tw-gradient-to-position: ;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia: ;
+            --tw-contain-size: ;
+            --tw-contain-layout: ;
+            --tw-contain-paint: ;
+            --tw-contain-style:
+        }
+
+        /* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb
+        }
+
+        ::after,
+        ::before {
+            --tw-content: ''
+        }
+
+        :host,
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit
+        }
+
+        b,
+        strong {
+            font-weight: bolder
+        }
+
+        code,
+        kbd,
+        pre,
+        samp {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-feature-settings: normal;
+            font-variation-settings: normal;
+            font-size: 1em
+        }
+
+        small {
+            font-size: 80%
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline
+        }
+
+        sub {
+            bottom: -.25em
+        }
+
+        sup {
+            top: -.5em
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-feature-settings: inherit;
+            font-variation-settings: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            letter-spacing: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0
+        }
+
+        button,
+        select {
+            text-transform: none
+        }
+
+        button,
+        input:where([type=button]),
+        input:where([type=reset]),
+        input:where([type=submit]) {
+            -webkit-appearance: button;
+            background-color: transparent;
+            background-image: none
+        }
+
+        :-moz-focusring {
+            outline: auto
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none
+        }
+
+        progress {
+            vertical-align: baseline
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto
+        }
+
+        [type=search] {
+            -webkit-appearance: textfield;
+            outline-offset: -2px
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit
+        }
+
+        summary {
+            display: list-item
+        }
+
+        blockquote,
+        dd,
+        dl,
+        figure,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        p,
+        pre {
+            margin: 0
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0
+        }
+
+        legend {
+            padding: 0
+        }
+
+        menu,
+        ol,
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        dialog {
+            padding: 0
+        }
+
+        textarea {
+            resize: vertical
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af
+        }
+
+        [role=button],
+        button {
+            cursor: pointer
+        }
+
+        :disabled {
+            cursor: default
+        }
+
+        audio,
+        canvas,
+        embed,
+        iframe,
+        img,
+        object,
+        svg,
+        video {
+            display: block;
+            vertical-align: middle
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto
+        }
+
+        [hidden]:where(:not([hidden=until-found])) {
+            display: none
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0
+        }
+
+        .pointer-events-none {
+            pointer-events: none
+        }
+
+        .absolute {
+            position: absolute
+        }
+
+        .relative {
+            position: relative
+        }
+
+        .sticky {
+            position: sticky
+        }
+
+        .inset-0 {
+            inset: 0px
+        }
+
+        .-top-3 {
+            top: -0.75rem
+        }
+
+        .bottom-0 {
+            bottom: 0px
+        }
+
+        .left-0 {
+            left: 0px
+        }
+
+        .left-1 {
+            left: 0.25rem
+        }
+
+        .left-4 {
+            left: 1rem
+        }
+
+        .left-\[50\%\] {
+            left: 50%
+        }
+
+        .right-0 {
+            right: 0px
+        }
+
+        .right-10 {
+            right: 2.5rem
+        }
+
+        .right-4 {
+            right: 1rem
+        }
+
+        .top-0 {
+            top: 0px
+        }
+
+        .top-1 {
+            top: 0.25rem
+        }
+
+        .top-1\/2 {
+            top: 50%
+        }
+
+        .top-\[50\%\] {
+            top: 50%
+        }
+
+        .z-0 {
+            z-index: 0
+        }
+
+        .z-10 {
+            z-index: 10
+        }
+
+        .z-50 {
+            z-index: 50
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .mb-12 {
+            margin-bottom: 3rem
+        }
+
+        .mb-16 {
+            margin-bottom: 4rem
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem
+        }
+
+        .mr-2 {
+            margin-right: 0.5rem
+        }
+
+        .mt-1 {
+            margin-top: 0.25rem
+        }
+
+        .mt-10 {
+            margin-top: 2.5rem
+        }
+
+        .mt-12 {
+            margin-top: 3rem
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem
+        }
+
+        .mt-4 {
+            margin-top: 1rem
+        }
+
+        .mt-8 {
+            margin-top: 2rem
+        }
+
+        .flex {
+            display: flex
+        }
+
+        .inline-flex {
+            display: inline-flex
+        }
+
+        .grid {
+            display: grid
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .h-10 {
+            height: 2.5rem
+        }
+
+        .h-12 {
+            height: 3rem
+        }
+
+        .h-16 {
+            height: 4rem
+        }
+
+        .h-48 {
+            height: 12rem
+        }
+
+        .h-6 {
+            height: 1.5rem
+        }
+
+        .h-8 {
+            height: 2rem
+        }
+
+        .h-96 {
+            height: 24rem
+        }
+
+        .h-\[10px\] {
+            height: 10px
+        }
+
+        .h-\[160px\] {
+            height: 160px
+        }
+
+        .h-\[240px\] {
+            height: 240px
+        }
+
+        .h-\[320px\] {
+            height: 320px
+        }
+
+        .h-\[400px\] {
+            height: 400px
+        }
+
+        .h-\[500px\] {
+            height: 500px
+        }
+
+        .h-\[80px\] {
+            height: 80px
+        }
+
+        .h-full {
+            height: 100%
+        }
+
+        .w-10 {
+            width: 2.5rem
+        }
+
+        .w-12 {
+            width: 3rem
+        }
+
+        .w-14 {
+            width: 3.5rem
+        }
+
+        .w-24 {
+            width: 6rem
+        }
+
+        .w-32 {
+            width: 8rem
+        }
+
+        .w-6 {
+            width: 1.5rem
+        }
+
+        .w-64 {
+            width: 16rem
+        }
+
+        .w-96 {
+            width: 24rem
+        }
+
+        .w-\[10px\] {
+            width: 10px
+        }
+
+        .w-\[160px\] {
+            width: 160px
+        }
+
+        .w-\[240px\] {
+            width: 240px
+        }
+
+        .w-\[320px\] {
+            width: 320px
+        }
+
+        .w-\[80px\] {
+            width: 80px
+        }
+
+        .w-full {
+            width: 100%
+        }
+
+        .max-w-2xl {
+            max-width: 42rem
+        }
+
+        .max-w-7xl {
+            max-width: 80rem
+        }
+
+        .max-w-lg {
+            max-width: 32rem
+        }
+
+        .flex-1 {
+            flex: 1 1 0%
+        }
+
+        .flex-shrink-0 {
+            flex-shrink: 0
+        }
+
+        .-translate-y-1\/2 {
+            --tw-translate-y: -50%;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .translate-x-\[115px\] {
+            --tw-translate-x: 115px;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .rotate-90 {
+            --tw-rotate: 90deg;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .scale-95 {
+            --tw-scale-x: .95;
+            --tw-scale-y: .95;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .animate-\[spin_20s_linear_infinite\] {
+            animation: spin 20s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .animate-\[spin_40s_linear_infinite_reverse\] {
+            animation: spin 40s linear infinite reverse
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .animate-\[spin_60s_linear_infinite\] {
+            animation: spin 60s linear infinite
+        }
+
+        @keyframes ping {
+
+            75%,
+            100% {
+                transform: scale(2);
+                opacity: 0
+            }
+        }
+
+        .animate-ping {
+            animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: .5
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite
+        }
+
+        .cursor-pointer {
+            cursor: pointer
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr))
+        }
+
+        .flex-col {
+            flex-direction: column
+        }
+
+        .items-start {
+            align-items: flex-start
+        }
+
+        .items-center {
+            align-items: center
+        }
+
+        .justify-center {
+            justify-content: center
+        }
+
+        .justify-between {
+            justify-content: space-between
+        }
+
+        .gap-12 {
+            gap: 3rem
+        }
+
+        .gap-2 {
+            gap: 0.5rem
+        }
+
+        .gap-3 {
+            gap: 0.75rem
+        }
+
+        .gap-4 {
+            gap: 1rem
+        }
+
+        .gap-6 {
+            gap: 1.5rem
+        }
+
+        .gap-8 {
+            gap: 2rem
+        }
+
+        .space-x-8> :not([hidden])~ :not([hidden]) {
+            --tw-space-x-reverse: 0;
+            margin-right: calc(2rem * var(--tw-space-x-reverse));
+            margin-left: calc(2rem * calc(1 - var(--tw-space-x-reverse)))
+        }
+
+        .space-y-4> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(1rem * var(--tw-space-y-reverse))
+        }
+
+        .space-y-6> :not([hidden])~ :not([hidden]) {
+            --tw-space-y-reverse: 0;
+            margin-top: calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));
+            margin-bottom: calc(1.5rem * var(--tw-space-y-reverse))
+        }
+
+        .overflow-hidden {
+            overflow: hidden
+        }
+
+        .overflow-x-auto {
+            overflow-x: auto
+        }
+
+        .rounded {
+            border-radius: 0.25rem
+        }
+
+        .rounded-2xl {
+            border-radius: 1rem
+        }
+
+        .rounded-3xl {
+            border-radius: 1.5rem
+        }
+
+        .rounded-full {
+            border-radius: 9999px
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem
+        }
+
+        .rounded-xl {
+            border-radius: 0.75rem
+        }
+
+        .border {
+            border-width: 1px
+        }
+
+        .border-2 {
+            border-width: 2px
+        }
+
+        .border-4 {
+            border-width: 4px
+        }
+
+        .border-b {
+            border-bottom-width: 1px
+        }
+
+        .border-r-2 {
+            border-right-width: 2px
+        }
+
+        .border-t {
+            border-top-width: 1px
+        }
+
+        .border-dashed {
+            border-style: dashed
+        }
+
+        .border-blue-100 {
+            --tw-border-opacity: 1;
+            border-color: rgb(219 234 254 / var(--tw-border-opacity, 1))
+        }
+
+        .border-blue-300 {
+            --tw-border-opacity: 1;
+            border-color: rgb(147 197 253 / var(--tw-border-opacity, 1))
+        }
+
+        .border-blue-400 {
+            --tw-border-opacity: 1;
+            border-color: rgb(96 165 250 / var(--tw-border-opacity, 1))
+        }
+
+        .border-blue-500\/30 {
+            border-color: rgb(59 130 246 / 0.3)
+        }
+
+        .border-blue-500\/50 {
+            border-color: rgb(59 130 246 / 0.5)
+        }
+
+        .border-gray-100 {
+            --tw-border-opacity: 1;
+            border-color: rgb(243 244 246 / var(--tw-border-opacity, 1))
+        }
+
+        .border-gray-200 {
+            --tw-border-opacity: 1;
+            border-color: rgb(229 231 235 / var(--tw-border-opacity, 1))
+        }
+
+        .border-gray-300 {
+            --tw-border-opacity: 1;
+            border-color: rgb(209 213 219 / var(--tw-border-opacity, 1))
+        }
+
+        .border-indigo-500\/30 {
+            border-color: rgb(99 102 241 / 0.3)
+        }
+
+        .border-slate-100 {
+            --tw-border-opacity: 1;
+            border-color: rgb(241 245 249 / var(--tw-border-opacity, 1))
+        }
+
+        .border-slate-200 {
+            --tw-border-opacity: 1;
+            border-color: rgb(226 232 240 / var(--tw-border-opacity, 1))
+        }
+
+        .border-slate-600 {
+            --tw-border-opacity: 1;
+            border-color: rgb(71 85 105 / var(--tw-border-opacity, 1))
+        }
+
+        .border-slate-700 {
+            --tw-border-opacity: 1;
+            border-color: rgb(51 65 85 / var(--tw-border-opacity, 1))
+        }
+
+        .bg-black\/30 {
+            background-color: rgb(0 0 0 / 0.3)
+        }
+
+        .bg-blue-100 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(219 234 254 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-blue-50 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(239 246 255 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-blue-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(59 130 246 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-blue-500\/10 {
+            background-color: rgb(59 130 246 / 0.1)
+        }
+
+        .bg-blue-500\/20 {
+            background-color: rgb(59 130 246 / 0.2)
+        }
+
+        .bg-blue-600 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(37 99 235 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-gray-200 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-gray-300 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-green-50 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(240 253 244 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-green-500\/20 {
+            background-color: rgb(34 197 94 / 0.2)
+        }
+
+        .bg-indigo-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(99 102 241 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-purple-100 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(243 232 255 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-purple-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(168 85 247 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-purple-500\/20 {
+            background-color: rgb(168 85 247 / 0.2)
+        }
+
+        .bg-red-100 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(254 226 226 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-red-500 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(239 68 68 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-50 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(248 250 252 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-700 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(51 65 85 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-700\/50 {
+            background-color: rgb(51 65 85 / 0.5)
+        }
+
+        .bg-slate-800 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(30 41 59 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-slate-800\/50 {
+            background-color: rgb(30 41 59 / 0.5)
+        }
+
+        .bg-slate-900 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(15 23 42 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-white {
+            --tw-bg-opacity: 1;
+            background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-yellow-100 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(254 249 195 / var(--tw-bg-opacity, 1))
+        }
+
+        .bg-gradient-to-br {
+            background-image: linear-gradient(to bottom right, var(--tw-gradient-stops))
+        }
+
+        .bg-gradient-to-r {
+            background-image: linear-gradient(to right, var(--tw-gradient-stops))
+        }
+
+        .bg-gradient-to-t {
+            background-image: linear-gradient(to top, var(--tw-gradient-stops))
+        }
+
+        .from-blue-400 {
+            --tw-gradient-from: #60a5fa var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(96 165 250 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .from-blue-900 {
+            --tw-gradient-from: #1e3a8a var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(30 58 138 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .from-gray-900 {
+            --tw-gradient-from: #111827 var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(17 24 39 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .from-indigo-900 {
+            --tw-gradient-from: #312e81 var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(49 46 129 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .from-white {
+            --tw-gradient-from: #fff var(--tw-gradient-from-position);
+            --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .via-white {
+            --tw-gradient-to: rgb(255 255 255 / 0) var(--tw-gradient-to-position);
+            --tw-gradient-stops: var(--tw-gradient-from), #fff var(--tw-gradient-via-position), var(--tw-gradient-to)
+        }
+
+        .to-purple-400 {
+            --tw-gradient-to: #c084fc var(--tw-gradient-to-position)
+        }
+
+        .to-slate-800 {
+            --tw-gradient-to: #1e293b var(--tw-gradient-to-position)
+        }
+
+        .to-slate-900 {
+            --tw-gradient-to: #0f172a var(--tw-gradient-to-position)
+        }
+
+        .to-transparent {
+            --tw-gradient-to: transparent var(--tw-gradient-to-position)
+        }
+
+        .bg-clip-text {
+            -webkit-background-clip: text;
+            background-clip: text
+        }
+
+        .object-cover {
+            object-fit: cover
+        }
+
+        .p-4 {
+            padding: 1rem
+        }
+
+        .p-6 {
+            padding: 1.5rem
+        }
+
+        .p-8 {
+            padding: 2rem
+        }
+
+        .px-2 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem
+        }
+
+        .px-3 {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem
+        }
+
+        .px-4 {
+            padding-left: 1rem;
+            padding-right: 1rem
+        }
+
+        .px-8 {
+            padding-left: 2rem;
+            padding-right: 2rem
+        }
+
+        .py-1 {
+            padding-top: 0.25rem;
+            padding-bottom: 0.25rem
+        }
+
+        .py-16 {
+            padding-top: 4rem;
+            padding-bottom: 4rem
+        }
+
+        .py-2 {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem
+        }
+
+        .py-20 {
+            padding-top: 5rem;
+            padding-bottom: 5rem
+        }
+
+        .py-3 {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem
+        }
+
+        .pb-16 {
+            padding-bottom: 4rem
+        }
+
+        .pb-2 {
+            padding-bottom: 0.5rem
+        }
+
+        .pt-20 {
+            padding-top: 5rem
+        }
+
+        .text-center {
+            text-align: center
+        }
+
+        .font-mono {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+            line-height: 2rem
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+            line-height: 2.25rem
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+            line-height: 2.5rem
+        }
+
+        .text-5xl {
+            font-size: 3rem;
+            line-height: 1
+        }
+
+        .text-\[10px\] {
+            font-size: 10px
+        }
+
+        .text-base {
+            font-size: 1rem;
+            line-height: 1.5rem
+        }
+
+        .text-lg {
+            font-size: 1.125rem;
+            line-height: 1.75rem
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.75rem
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+            line-height: 1rem
+        }
+
+        .font-bold {
+            font-weight: 700
+        }
+
+        .font-medium {
+            font-weight: 500
+        }
+
+        .font-semibold {
+            font-weight: 600
+        }
+
+        .uppercase {
+            text-transform: uppercase
+        }
+
+        .italic {
+            font-style: italic
+        }
+
+        .leading-relaxed {
+            line-height: 1.625
+        }
+
+        .tracking-tight {
+            letter-spacing: -0.025em
+        }
+
+        .tracking-wide {
+            letter-spacing: 0.025em
+        }
+
+        .text-blue-300 {
+            --tw-text-opacity: 1;
+            color: rgb(147 197 253 / var(--tw-text-opacity, 1))
+        }
+
+        .text-blue-400 {
+            --tw-text-opacity: 1;
+            color: rgb(96 165 250 / var(--tw-text-opacity, 1))
+        }
+
+        .text-blue-500 {
+            --tw-text-opacity: 1;
+            color: rgb(59 130 246 / var(--tw-text-opacity, 1))
+        }
+
+        .text-blue-600 {
+            --tw-text-opacity: 1;
+            color: rgb(37 99 235 / var(--tw-text-opacity, 1))
+        }
+
+        .text-blue-700 {
+            --tw-text-opacity: 1;
+            color: rgb(29 78 216 / var(--tw-text-opacity, 1))
+        }
+
+        .text-gray-300 {
+            --tw-text-opacity: 1;
+            color: rgb(209 213 219 / var(--tw-text-opacity, 1))
+        }
+
+        .text-gray-400 {
+            --tw-text-opacity: 1;
+            color: rgb(156 163 175 / var(--tw-text-opacity, 1))
+        }
+
+        .text-gray-500 {
+            --tw-text-opacity: 1;
+            color: rgb(107 114 128 / var(--tw-text-opacity, 1))
+        }
+
+        .text-gray-600 {
+            --tw-text-opacity: 1;
+            color: rgb(75 85 99 / var(--tw-text-opacity, 1))
+        }
+
+        .text-gray-700 {
+            --tw-text-opacity: 1;
+            color: rgb(55 65 81 / var(--tw-text-opacity, 1))
+        }
+
+        .text-green-300 {
+            --tw-text-opacity: 1;
+            color: rgb(134 239 172 / var(--tw-text-opacity, 1))
+        }
+
+        .text-green-400 {
+            --tw-text-opacity: 1;
+            color: rgb(74 222 128 / var(--tw-text-opacity, 1))
+        }
+
+        .text-green-600 {
+            --tw-text-opacity: 1;
+            color: rgb(22 163 74 / var(--tw-text-opacity, 1))
+        }
+
+        .text-green-700 {
+            --tw-text-opacity: 1;
+            color: rgb(21 128 61 / var(--tw-text-opacity, 1))
+        }
+
+        .text-indigo-300 {
+            --tw-text-opacity: 1;
+            color: rgb(165 180 252 / var(--tw-text-opacity, 1))
+        }
+
+        .text-pink-300 {
+            --tw-text-opacity: 1;
+            color: rgb(249 168 212 / var(--tw-text-opacity, 1))
+        }
+
+        .text-purple-400 {
+            --tw-text-opacity: 1;
+            color: rgb(192 132 252 / var(--tw-text-opacity, 1))
+        }
+
+        .text-purple-600 {
+            --tw-text-opacity: 1;
+            color: rgb(147 51 234 / var(--tw-text-opacity, 1))
+        }
+
+        .text-purple-700 {
+            --tw-text-opacity: 1;
+            color: rgb(126 34 206 / var(--tw-text-opacity, 1))
+        }
+
+        .text-red-600 {
+            --tw-text-opacity: 1;
+            color: rgb(220 38 38 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-400 {
+            --tw-text-opacity: 1;
+            color: rgb(148 163 184 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-600 {
+            --tw-text-opacity: 1;
+            color: rgb(71 85 105 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-800 {
+            --tw-text-opacity: 1;
+            color: rgb(30 41 59 / var(--tw-text-opacity, 1))
+        }
+
+        .text-slate-900 {
+            --tw-text-opacity: 1;
+            color: rgb(15 23 42 / var(--tw-text-opacity, 1))
+        }
+
+        .text-transparent {
+            color: transparent
+        }
+
+        .text-white {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity, 1))
+        }
+
+        .text-yellow-600 {
+            --tw-text-opacity: 1;
+            color: rgb(202 138 4 / var(--tw-text-opacity, 1))
+        }
+
+        .antialiased {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        .opacity-0 {
+            opacity: 0
+        }
+
+        .opacity-10 {
+            opacity: 0.1
+        }
+
+        .opacity-20 {
+            opacity: 0.2
+        }
+
+        .mix-blend-multiply {
+            mix-blend-mode: multiply
+        }
+
+        .shadow {
+            --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-inner {
+            --tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+            --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-lg {
+            --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-sm {
+            --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-xl {
+            --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-blue-200 {
+            --tw-shadow-color: #bfdbfe;
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .shadow-blue-300 {
+            --tw-shadow-color: #93c5fd;
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .blur-3xl {
+            --tw-blur: blur(64px);
+            filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+        }
+
+        .filter {
+            filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)
+        }
+
+        .backdrop-blur-sm {
+            --tw-backdrop-blur: blur(4px);
+            -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+            backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)
+        }
+
+        .transition {
+            transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .duration-300 {
+            transition-duration: 300ms
+        }
+
+        .duration-500 {
+            transition-duration: 500ms
+        }
+
+        .hover\:bg-blue-700:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:bg-gray-50:hover {
+            --tw-bg-opacity: 1;
+            background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1))
+        }
+
+        .hover\:text-blue-500:hover {
+            --tw-text-opacity: 1;
+            color: rgb(59 130 246 / var(--tw-text-opacity, 1))
+        }
+
+        .hover\:text-blue-600:hover {
+            --tw-text-opacity: 1;
+            color: rgb(37 99 235 / var(--tw-text-opacity, 1))
+        }
+
+        @media (min-width: 640px) {
+            .sm\:px-6 {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\:flex {
+                display: flex
+            }
+
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .md\:flex-row {
+                flex-direction: row
+            }
+
+            .md\:text-7xl {
+                font-size: 4.5rem;
+                line-height: 1
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:col-span-4 {
+                grid-column: span 4 / span 4
+            }
+
+            .lg\:col-span-8 {
+                grid-column: span 8 / span 8
+            }
+
+            .lg\:grid-cols-12 {
+                grid-template-columns: repeat(12, minmax(0, 1fr))
+            }
+
+            .lg\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .lg\:grid-cols-3 {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .lg\:grid-cols-4 {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+
+            .lg\:px-8 {
+                padding-left: 2rem;
+                padding-right: 2rem
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-blue-600">layers</span>
+                    <span class="font-bold text-xl tracking-tight">Nested Learning</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+                    <a href="#concept" class="hover:text-blue-600 transition">The Concept</a>
+                    <a href="#bio" class="hover:text-blue-600 transition">Bio-Inspiration</a>
+                    <a href="#hope" class="hover:text-blue-600 transition">HOPE Architecture</a>
+                    <a href="#results" class="hover:text-blue-600 transition">Results</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative bg-white overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <!-- 
+                "/gen?prompt=abstract+nested+glass+geometric+spheres+floating+in+white+space+minimalist+blue+accents&aspect=16:9"
+             -->
+            <svg class="w-full h-full object-cover opacity-10" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+        </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grid)" />
+    <circle cx="400" cy="300" r="200" fill="rgba(59, 130, 246, 0.05)" />
+    <circle cx="200" cy="150" r="100" fill="rgba(147, 51, 234, 0.05)" />
+    <circle cx="600" cy="450" r="150" fill="rgba(59, 130, 246, 0.05)" />
+</svg>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+            <div
+                class="inline-flex items-center px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6">
+                <span class="material-symbols-outlined text-base mr-2">science</span>
+                Google Research Paper Explainer
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-6">
+                The Illusion of <span class="text-blue-600">Deep Learning</span>
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+                A new paradigm proposing that modern architectures are not just layers, but nested optimization problems
+                with different "context flows" and frequencies.
+            </p>
+
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#concept"
+                    class="px-8 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-200">
+                    Explore the Paradigm
+                </a>
+                <a href="#results"
+                    class="px-8 py-3 rounded-xl bg-white text-gray-700 font-semibold border border-gray-200 hover:bg-gray-50 transition">
+                    View Benchmarks
+                </a>
+            </div>
+
+            <div class="mt-12 text-gray-400 text-sm italic">
+                "We cannot solve our problems with the same thinking we used when we created them!" — Attributed to
+                Albert Einstein
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Concept Switcher -->
+    <div id="concept" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Paradigm Shift: Layers vs. Nests</h2>
+                <p class="mt-4 text-gray-600">Toggle to see how Nested Learning (NL) reinterprets Neural Networks.</p>
+
+                <!-- Toggle Switch -->
+                <div class="mt-8 flex justify-center items-center gap-4">
+                    <span class="text-sm font-semibold text-gray-500" id="label-deep">Deep Learning View</span>
+                    <label for="toggle-view" class="flex items-center cursor-pointer relative">
+                        <input type="checkbox" id="toggle-view" class="sr-only" onchange="toggleParadigm()">
+                        <div class="w-14 h-8 bg-gray-300 rounded-full shadow-inner transition duration-300 bg-blue-600"
+                            id="toggle-bg"></div>
+                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow left-1 top-1 transition duration-300"
+                            id="toggle-dot" style="transform: translateX(100%);"></div>
+                    </label>
+                    <span class="text-sm font-semibold text-blue-600" id="label-nested">Nested Learning View</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Visualizer -->
+                <div class="bg-white p-8 rounded-3xl shadow-xl h-[400px] flex items-center justify-center relative overflow-hidden transition-all"
+                    id="visualizer-container">
+
+                    <!-- Deep Learning Graphic (Stacks) -->
+                    <div id="dl-graphic"
+                        class="absolute w-full flex flex-col items-center gap-4 transition-all duration-500 opacity-0 scale-95 pointer-events-none"
+                        style="opacity: 0; transform: scale(0.95);">
+                        <div
+                            class="w-64 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 font-mono text-sm border-2 border-dashed border-gray-300">
+                            Output Layer</div>
+                        <div
+                            class="w-64 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 font-bold shadow-sm">
+                            Hidden Layer N</div>
+                        <div
+                            class="w-64 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 font-bold shadow-sm">
+                            Hidden Layer ...</div>
+                        <div
+                            class="w-64 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 font-bold shadow-sm">
+                            Hidden Layer 2</div>
+                        <div
+                            class="w-64 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-700 font-bold shadow-sm">
+                            Hidden Layer 1</div>
+                        <div
+                            class="w-64 h-12 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 font-mono text-sm border-2 border-dashed border-gray-300">
+                            Input Data</div>
+                        <div class="absolute right-10 top-1/2 -translate-y-1/2 h-full border-r-2 border-blue-400"></div>
+                        <div
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-blue-500 rotate-90 font-mono">
+                            Backpropagation Path</div>
+                    </div>
+
+                    <!-- Nested Learning Graphic (Concentric) -->
+                    <div id="nl-graphic"
+                        class="absolute w-full h-full flex items-center justify-center transition-all duration-500"
+                        style="opacity: 1; transform: scale(1);">
+                        <div
+                            class="absolute w-[320px] h-[320px] rounded-full border-4 border-slate-200 flex items-center justify-center animate-[spin_60s_linear_infinite]">
+                            <div class="absolute -top-3 bg-white px-2 text-xs font-bold text-slate-400">Low Frequency
+                                (Pre-training)</div>
+                        </div>
+                        <div
+                            class="absolute w-[240px] h-[240px] rounded-full border-4 border-blue-100 flex items-center justify-center animate-[spin_40s_linear_infinite_reverse]">
+                            <div class="absolute -top-3 bg-white px-2 text-xs font-bold text-blue-300">Mid Frequency
+                                (CMS)</div>
+                        </div>
+                        <div
+                            class="absolute w-[160px] h-[160px] rounded-full border-4 border-blue-300 flex items-center justify-center animate-[spin_20s_linear_infinite]">
+                            <div class="absolute -top-3 bg-white px-2 text-xs font-bold text-blue-500">High Frequency
+                                (Context)</div>
+                        </div>
+                        <div
+                            class="absolute w-[80px] h-[80px] bg-blue-600 rounded-full flex items-center justify-center shadow-lg shadow-blue-300 pulse-ring">
+                            <span class="material-symbols-outlined text-white text-3xl">memory</span>
+                        </div>
+                        <!-- Gradient Flow Indicators -->
+                        <div
+                            class="absolute top-[50%] left-[50%] w-[10px] h-[10px] bg-red-500 rounded-full translate-x-[115px] animate-ping">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Text Explanation -->
+                <div class="space-y-6">
+                    <div id="text-dl" class="fade-in hidden">
+                        <h3 class="text-2xl font-bold text-purple-700">The "Deep Learning" View</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Traditionally, we see models as stacks of layers. Information passes forward, gradients pass
+                            backward.
+                            <br><br>
+                            <strong>The Problem:</strong> This view hides the internal gradient flows. It creates an
+                            "illusion" of depth where layers are static and uniform, updated only by a single
+                            centralized clock (the global optimizer).
+                        </p>
+                    </div>
+                    <div id="text-nl" class="fade-in">
+                        <h3 class="text-2xl font-bold text-blue-600">The "Nested Learning" View</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            The paper proposes viewing the model as a set of <strong>nested optimization
+                                problems</strong>.
+                        </p>
+                        <ul class="space-y-4 mt-4">
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-blue-500 mt-1">speed</span>
+                                <div>
+                                    <strong class="text-slate-900">Multi-Time Scale:</strong> Just like brain waves,
+                                    different parts update at different frequencies (fast adaption vs. slow
+                                    consolidation).
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-blue-500 mt-1">account_tree</span>
+                                <div>
+                                    <strong class="text-slate-900">Context Flow:</strong> Each nesting level (Inner loop
+                                    vs Outer loop) has its own objective and context.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-blue-500 mt-1">psychology</span>
+                                <div>
+                                    <strong class="text-slate-900">Optimization is Memory:</strong> Optimizers (like
+                                    Adam) are actually associative memories compressing gradients!
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bio-Inspiration Section -->
+    <div id="bio" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div
+                        class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-xs font-bold uppercase tracking-wide mb-4">
+                        Neuroscience Inspiration
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-6">Learning from the Brain</h2>
+                    <p class="text-gray-600 mb-6">
+                        The human brain doesn't use a single clock for updates. It uses oscillations (brain waves) at
+                        different frequencies to manage memory and cognition. Nested Learning mimics this structure.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-red-600 font-bold text-xs">
+                                Gamma<br>Fast</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Sensory Information (30-100 Hz)</h4>
+                                <p class="text-sm text-gray-500">Corresponds to fast-adapting layers (In-Context
+                                    Learning).</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 font-bold text-xs">
+                                Beta<br>Mid</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Active Thinking (12-30 Hz)</h4>
+                                <p class="text-sm text-gray-500">Corresponds to mid-frequency updates (Continuum Memory
+                                    System).</p>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-4">
+                            <div
+                                class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xs">
+                                Delta<br>Slow</div>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Consolidation (0.5-4 Hz)</h4>
+                                <p class="text-sm text-gray-500">Corresponds to persistent knowledge (Pre-training
+                                    weights).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-[500px] w-full bg-slate-50 rounded-3xl overflow-hidden border border-slate-200">
+                    <!-- 
+                        "/gen?prompt=illustration+of+human+brain+with+glowing+frequency+waves+gamma+beta+delta+scientific+diagram+style&aspect=3:4"
+                    -->
+                    <svg class="w-full h-full object-cover bg-white" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 50 C 120 50, 50 120, 50 250 C 50 350, 100 450, 200 450 C 300 450, 350 350, 350 250 C 350 120, 280 50, 200 50 Z" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+    <path d="M70 150 Q 130 150, 130 200 T 190 200" fill="none" stroke="#ef4444" stroke-width="2" stroke-dasharray="4 2"/>
+    <text x="70" y="140" fill="#ef4444" font-size="12">Gamma</text>
+    <path d="M80 250 Q 140 250, 180 300" fill="none" stroke="#eab308" stroke-width="2" stroke-dasharray="6 3"/>
+    <text x="80" y="240" fill="#eab308" font-size="12">Beta</text>
+    <path d="M100 350 Q 200 350, 250 400" fill="none" stroke="#3b82f6" stroke-width="2" stroke-dasharray="8 4"/>
+    <text x="100" y="340" fill="#3b82f6" font-size="12">Delta</text>
+</svg>
+                    <div
+                        class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white via-white to-transparent">
+                        <p class="text-sm font-medium text-slate-600">The brain distributes memory across regions with
+                            different update rates, unlike standard LLMs which have only "frozen weights" and "immediate
+                            context".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The HOPE Architecture -->
+    <div id="hope" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div
+            class="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16">
+                <h2
+                    class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                    The HOPE Architecture</h2>
+                <p class="mt-4 text-gray-400 max-w-2xl mx-auto">
+                    Combining <strong>Self-Referential Titans</strong> with a <strong>Continuum Memory System</strong>
+                    to solve catastrophic forgetting and long-context reasoning.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Architecture Diagram -->
+                <div class="lg:col-span-8 bg-slate-800/50 rounded-3xl border border-slate-700 p-8 backdrop-blur-sm">
+                    <div class="flex flex-col items-center gap-6">
+                        <!-- Input -->
+                        <div
+                            class="w-32 h-10 bg-slate-700 rounded-lg flex items-center justify-center text-sm font-mono text-gray-300 border border-slate-600">
+                            Input Sequence</div>
+                        <span class="material-symbols-outlined text-gray-500">arrow_downward</span>
+
+                        <!-- Component 1: Self-Referential Titans -->
+                        <div
+                            class="w-full max-w-lg p-6 bg-gradient-to-br from-indigo-900 to-slate-900 rounded-2xl border border-indigo-500/30 relative group">
+                            <div
+                                class="absolute -top-3 left-4 bg-indigo-500 text-xs font-bold px-2 py-1 rounded text-white">
+                                High Frequency (Fast)</div>
+                            <h4 class="text-xl font-bold text-indigo-300 mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined">autorenew</span> Self-Referential Titans
+                            </h4>
+                            <p class="text-sm text-gray-400">
+                                A sequence model that learns to modify itself. It generates its own learning rate (η)
+                                and decay (α) based on the context.
+                            </p>
+                            <div class="mt-4 flex gap-2 justify-center">
+                                <div class="px-2 py-1 bg-black/30 rounded text-xs font-mono text-pink-300">k<sub>t</sub>
+                                </div>
+                                <div class="px-2 py-1 bg-black/30 rounded text-xs font-mono text-pink-300">v<sub>t</sub>
+                                </div>
+                                <div class="px-2 py-1 bg-black/30 rounded text-xs font-mono text-pink-300">q<sub>t</sub>
+                                </div>
+                                <div
+                                    class="px-2 py-1 bg-black/30 rounded text-xs font-mono text-green-300 animate-pulse">
+                                    η<sub>t</sub> (Adaptive)</div>
+                            </div>
+                        </div>
+
+                        <span class="material-symbols-outlined text-gray-500">arrow_downward</span>
+
+                        <!-- Component 2: CMS -->
+                        <div
+                            class="w-full max-w-lg p-6 bg-gradient-to-br from-blue-900 to-slate-900 rounded-2xl border border-blue-500/30 relative">
+                            <div
+                                class="absolute -top-3 left-4 bg-blue-500 text-xs font-bold px-2 py-1 rounded text-white">
+                                Variable Frequency</div>
+                            <h4 class="text-xl font-bold text-blue-300 mb-2 flex items-center gap-2">
+                                <span class="material-symbols-outlined">history</span> Continuum Memory System (CMS)
+                            </h4>
+                            <p class="text-sm text-gray-400 mb-4">
+                                Replaces static MLP blocks. A chain of memories updated at different chunk sizes (e.g.,
+                                16, 1M tokens).
+                            </p>
+                            <!-- Timeline Graphic -->
+                            <div class="flex items-center gap-2 overflow-x-auto pb-2">
+                                <div
+                                    class="flex-shrink-0 w-24 h-16 bg-blue-500/20 rounded border border-blue-500/50 flex flex-col items-center justify-center">
+                                    <span class="text-xs text-blue-300">Level 1</span>
+                                    <span class="text-[10px] text-gray-500">Freq: High</span>
+                                </div>
+                                <span class="material-symbols-outlined text-gray-600 text-sm">arrow_forward</span>
+                                <div
+                                    class="flex-shrink-0 w-24 h-16 bg-blue-500/10 rounded border border-blue-500/30 flex flex-col items-center justify-center">
+                                    <span class="text-xs text-blue-300">Level 2</span>
+                                    <span class="text-[10px] text-gray-500">Freq: Mid</span>
+                                </div>
+                                <span class="material-symbols-outlined text-gray-600 text-sm">arrow_forward</span>
+                                <div
+                                    class="flex-shrink-0 w-24 h-16 bg-slate-800 rounded border border-slate-600 flex flex-col items-center justify-center">
+                                    <span class="text-xs text-blue-300">Level 3</span>
+                                    <span class="text-[10px] text-gray-500">Freq: Low</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <span class="material-symbols-outlined text-gray-500">arrow_downward</span>
+
+                        <!-- Output -->
+                        <div
+                            class="w-32 h-10 bg-slate-700 rounded-lg flex items-center justify-center text-sm font-mono text-gray-300 border border-slate-600">
+                            Output</div>
+                    </div>
+                </div>
+
+                <!-- Feature List -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="p-6 bg-slate-800 rounded-2xl border border-slate-700 feature-card">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-purple-400">update</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Self-Modification</h3>
+                        <p class="text-sm text-gray-400 mt-2">Unlike Transformers with fixed attention heads, Titans
+                            generate their own update rules per token.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800 rounded-2xl border border-slate-700 feature-card">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-blue-400">all_inclusive</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Looping Memory</h3>
+                        <p class="text-sm text-gray-400 mt-2">CMS creates a "loop" where old knowledge is transferred to
+                            lower frequency blocks rather than being overwritten.</p>
+                    </div>
+
+                    <div class="p-6 bg-slate-800 rounded-2xl border border-slate-700 feature-card">
+                        <div class="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
+                            <span class="material-symbols-outlined text-green-400">bolt</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">M3 Optimizer</h3>
+                        <p class="text-sm text-gray-400 mt-2">Introduces "Multi-scale Momentum Muon", an optimizer that
+                            understands long-term gradient dependencies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Dashboard -->
+    <div id="results" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-slate-900 mb-12 text-center">Benchmark Performance</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Chart 1: Continual Learning -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-blue-600">repeat</span> Class Incremental Learning
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-4">Accuracy on CLINC Dataset (Llama-3 Backbone)</p>
+                    <canvas id="continualChart" height="356" width="535"
+                        style="display: block; box-sizing: border-box; height: 178px; width: 267.5px;"></canvas>
+                    <p class="mt-4 text-sm text-gray-600">HOPE outperforms traditional In-Context Learning (ICL) and
+                        Elastic Weight Consolidation (EWC) by managing memory better.</p>
+                </div>
+
+                <!-- Chart 2: Long Context -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-green-600">travel_explore</span> Needle In A
+                        Haystack
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-4">Retrieval Accuracy (Multi-Key)</p>
+                    <canvas id="niahChart" height="356" width="535"
+                        style="display: block; box-sizing: border-box; height: 178px; width: 267.5px;"></canvas>
+                    <p class="mt-4 text-sm text-gray-600">HOPE maintains ~100% retrieval accuracy even as context length
+                        increases, beating Transformers and other Recurrent models.</p>
+                </div>
+
+                <!-- Chart 3: Language Modeling -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-purple-600">chat</span> Language Modeling
+                    </h3>
+                    <p class="text-xs text-gray-500 mb-4">Average Accuracy (Common Sense)</p>
+                    <canvas id="lmChart" height="356" width="535"
+                        style="display: block; box-sizing: border-box; height: 178px; width: 267.5px;"></canvas>
+                    <p class="mt-4 text-sm text-gray-600">On tasks like PIQA, ARC-e, and BoolQ, HOPE achieves superior
+                        average accuracy compared to Titans and Transformers.</p>
+                </div>
+
+            </div>
+
+            <!-- Optimizer Spotlight -->
+            <div
+                class="mt-12 p-8 bg-gradient-to-r from-gray-900 to-slate-800 rounded-3xl text-white flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <h3 class="text-2xl font-bold mb-4">The M3 Optimizer</h3>
+                    <p class="text-gray-300 mb-4">
+                        Standard optimizers (Adam) act like "Goldfish" — they only remember the recent past gradients.
+                        The paper introduces <strong>Multi-scale Momentum Muon (M3)</strong>.
+                    </p>
+                    <p class="text-gray-300">
+                        M3 uses the Continuum Memory System concept <em>inside the optimizer itself</em>, allowing it to
+                        escape local minima by recalling long-term landscape features.
+                    </p>
+                </div>
+                <div class="flex-1 w-full bg-slate-700/50 rounded-xl p-6 border border-slate-600">
+                    <h4 class="text-sm font-mono text-gray-400 mb-2">ImageNet-21K Training Loss</h4>
+                    <div class="relative h-48 w-full">
+                        <!-- Simulated Chart for M3 -->
+                        <canvas id="optimizerChart" width="871" height="384"
+                            style="display: block; box-sizing: border-box; height: 192px; width: 435.5px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Dictionary/Footer -->
+    <div class="bg-slate-50 border-t border-gray-200 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-xl font-bold text-slate-900 mb-8">Key Terminology</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h4 class="font-bold text-blue-600 text-sm">Nested Learning (NL)</h4>
+                    <p class="text-xs text-gray-600 mt-1">Viewing models as nested optimization loops rather than
+                        stacked layers.</p>
+                </div>
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h4 class="font-bold text-blue-600 text-sm">DGD (Delta Gradient Descent)</h4>
+                    <p class="text-xs text-gray-600 mt-1">A generalized gradient update rule that depends on the current
+                        state, unlike standard SGD.</p>
+                </div>
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h4 class="font-bold text-blue-600 text-sm">CMS (Continuum Memory)</h4>
+                    <p class="text-xs text-gray-600 mt-1">A memory system with a spectrum of update frequencies (Fast
+                        -&gt; Slow).</p>
+                </div>
+                <div class="p-4 bg-white rounded-xl shadow-sm">
+                    <h4 class="font-bold text-blue-600 text-sm">Self-Referential</h4>
+                    <p class="text-xs text-gray-600 mt-1">A model that generates its own learning parameters (keys,
+                        values, learning rates).</p>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center text-gray-400 text-sm">
+                <p>Based on the paper "Nested Learning: The Illusion of Deep Learning Architecture" by Ali Behrouz et
+                    al. (Google Research).</p>
+                <div class="mt-2 flex justify-center gap-4">
+                    <a href="#" class="hover:text-blue-500">Read PDF</a>
+                    <span>•</span>
+                    <a href="#" class="hover:text-blue-500">Google Research</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Toggle Logic for Paradigm Visualizer
+        function toggleParadigm() {
+            const isNested = document.getElementById('toggle-view').checked;
+            const toggleBg = document.getElementById('toggle-bg');
+            const toggleDot = document.getElementById('toggle-dot');
+            const dlGraphic = document.getElementById('dl-graphic');
+            const nlGraphic = document.getElementById('nl-graphic');
+            const textDl = document.getElementById('text-dl');
+            const textNl = document.getElementById('text-nl');
+            const labelDeep = document.getElementById('label-deep');
+            const labelNested = document.getElementById('label-nested');
+
+            if (isNested) {
+                // Switch to Nested
+                toggleDot.style.transform = 'translateX(100%)';
+                toggleBg.classList.add('bg-blue-600');
+
+                dlGraphic.style.opacity = '0';
+                dlGraphic.style.transform = 'scale(0.95)';
+                nlGraphic.style.opacity = '1';
+                nlGraphic.style.transform = 'scale(1)';
+
+                textDl.classList.add('hidden');
+                textNl.classList.remove('hidden');
+                textNl.classList.add('fade-in');
+
+                labelDeep.classList.remove('text-blue-600');
+                labelDeep.classList.add('text-gray-500');
+                labelNested.classList.add('text-blue-600');
+                labelNested.classList.remove('text-gray-500');
+
+            } else {
+                // Switch to Deep
+                toggleDot.style.transform = 'translateX(0)';
+                toggleBg.classList.remove('bg-blue-600');
+
+                nlGraphic.style.opacity = '0';
+                nlGraphic.style.transform = 'scale(1.05)';
+                dlGraphic.style.opacity = '1';
+                dlGraphic.style.transform = 'scale(1)';
+
+                textNl.classList.add('hidden');
+                textDl.classList.remove('hidden');
+                textDl.classList.add('fade-in');
+
+                labelNested.classList.remove('text-blue-600');
+                labelNested.classList.add('text-gray-500');
+                labelDeep.classList.add('text-blue-600');
+                labelDeep.classList.remove('text-gray-500');
+            }
+        }
+
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function () {
+            // Set toggle to nested by default for effect
+            document.getElementById('toggle-view').checked = true;
+            toggleParadigm();
+
+            // Continual Learning Chart
+            new Chart(document.getElementById('continualChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['In-Context', 'EWC', 'InCA', 'HOPE'],
+                    datasets: [{
+                        label: 'Accuracy (%)',
+                        data: [58, 60, 62, 70],
+                        backgroundColor: ['#cbd5e1', '#94a3b8', '#64748b', '#2563eb'],
+                        borderRadius: 6
+                    }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, max: 80 } } }
+            });
+
+            // NIAH Chart
+            new Chart(document.getElementById('niahChart'), {
+                type: 'line',
+                data: {
+                    labels: ['4K', '8K', '16K'],
+                    datasets: [
+                        { label: 'Transformer', data: [80, 76, 40], borderColor: '#94a3b8', tension: 0.4 },
+                        { label: 'Titans', data: [100, 85, 21], borderColor: '#a855f7', tension: 0.4 },
+                        { label: 'HOPE', data: [100, 100, 100], borderColor: '#2563eb', borderWidth: 3, tension: 0.1 }
+                    ]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
+            });
+
+            // LM Chart
+            new Chart(document.getElementById('lmChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['Transformers', 'Mamba/Samba', 'HOPE'],
+                    datasets: [{
+                        label: 'Avg Accuracy',
+                        data: [53, 54, 58],
+                        backgroundColor: ['#94a3b8', '#a855f7', '#2563eb'],
+                        borderRadius: 6
+                    }]
+                },
+                options: { plugins: { legend: { display: false } }, scales: { y: { min: 40 } } }
+            });
+
+            // Optimizer Chart
+            new Chart(document.getElementById('optimizerChart'), {
+                type: 'line',
+                data: {
+                    labels: ['Ep 1', 'Ep 5', 'Ep 10', 'Ep 15', 'Ep 20'],
+                    datasets: [
+                        { label: 'AdamW', data: [2.5, 2.4, 2.35, 2.3, 2.28], borderColor: '#9ca3af', borderDash: [5, 5] },
+                        { label: 'Muon', data: [2.5, 2.3, 2.25, 2.22, 2.20], borderColor: '#60a5fa' },
+                        { label: 'M3 (Ours)', data: [2.5, 2.25, 2.18, 2.15, 2.12], borderColor: '#f87171', borderWidth: 3 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: 'white' } } },
+                    scales: {
+                        y: { ticks: { color: '#9ca3af' }, grid: { color: '#374151' } },
+                        x: { ticks: { color: '#9ca3af' }, grid: { color: '#374151' } }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- 
+      Image URLs used:
+      1. Hero Background: "/gen?prompt=abstract+nested+glass+geometric+spheres+floating+in+white+space+minimalist+blue+accents&aspect=16:9"
+      2. Brain Graphic: "/gen?prompt=illustration+of+human+brain+with+glowing+frequency+waves+gamma+beta+delta+scientific+diagram+style&aspect=3:4"
+    -->
+
+
+
+</body>
+
+</html>
